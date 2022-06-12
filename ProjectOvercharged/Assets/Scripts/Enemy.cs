@@ -4,19 +4,36 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Rigidbody2D rb;
     public int health;
-
-    private void Start()    
+    public Rigidbody2D rb;
+    [SerializeField]
+    GameObject bullet;
+    float fireRate;
+    float nextFire;
+    
+    void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+
+        fireRate = 1f;
+        nextFire = Time.time;
     }
-    
-    private void Update()
+
+    void Update()
     {
-        if (health <= 0)
+        CheakifTimeToFire();
+        //if (health <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
+    }
+
+    void CheakifTimeToFire()
+    {
+        if (Time.time > nextFire)
         {
-            Destroy(gameObject);
+            Instantiate(bullet, transform.position, Quaternion.identity);
+            nextFire = Time.time + fireRate;
         }
     }
 
