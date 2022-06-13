@@ -30,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
-
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
 
         Vector2 aimDirection = mousePosition - rb.position;
