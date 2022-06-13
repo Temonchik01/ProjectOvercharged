@@ -22,10 +22,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CheakifTimeToFire();
-        //if (health <= 0)
-        //{
-        //    Destroy(gameObject);
-        //}
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void CheakifTimeToFire()

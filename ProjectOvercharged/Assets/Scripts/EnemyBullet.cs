@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    float moveSpeed = 19f;
-    Rigidbody2D rb;
-    PlayerMovement target;
-    Vector2 moveDirection;
-    void Start()
+    public float speed;
+    public float lifetime;
+    public float distanse;
+    public int damage;
+    public LayerMask whatIsSolid;
+
+    private void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-        target = GameObject.FindObjectOfType<PlayerMovement>();
-        moveDirection = (target.transform.position - transform.position).normalized * moveSpeed;
-        rb.velocity = new Vector2(moveDirection.x, moveDirection.y);
-        Destroy(gameObject, 3f);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, distanse, whatIsSolid);
+        if (hitInfo.collider != null)
+        {
+            if (hitInfo.collider.CompareTag("Player"))
+            {
+                hitInfo.collider.GetComponent<PlayerMovement>().TakeDamage(damage);
+            }
+        }
+        transform.Translate(Vector2.up * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

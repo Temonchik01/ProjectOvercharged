@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int damage;
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     public Weapon weapon;
@@ -31,21 +30,19 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
+
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
 
         Vector2 aimDirection = mousePosition - rb.position;
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = aimAngle;
     }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+
+    public void TakeDamage(int damage)
     {
-        if (other.CompareTag("EnemyBullet"))
-        {
-            health -= damage;
-        }
+        health -= damage;
     }
-    
 
 
 }
