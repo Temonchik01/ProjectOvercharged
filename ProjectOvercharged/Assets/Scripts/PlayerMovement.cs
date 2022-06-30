@@ -6,26 +6,28 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public Rigidbody2D rb;
-    public Weapon weapon;
-    public int health;
-
-
+    private Rigidbody2D rb;
     Vector2 moveDirection;
     Vector2 mousePosition;
+    public int health;
+    public Weapon weapon;
+    public Weapon_Shotgun shotgun;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-
-        moveDirection = new Vector2(moveX, moveY).normalized;
+        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        moveDirection = moveInput.normalized;
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+        
         if (health <= 0)
         {
-            Destroy(gameObject);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+             Destroy(gameObject);
+             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
     private void FixedUpdate()
@@ -36,11 +38,8 @@ public class PlayerMovement : MonoBehaviour
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = aimAngle;
     }
-
     public void TakeDamage(int damage)
     {
         health -= damage;
     }
-
-
 }
