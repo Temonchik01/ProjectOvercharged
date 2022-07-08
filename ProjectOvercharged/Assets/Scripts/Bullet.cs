@@ -19,6 +19,11 @@ public class Bullet : MonoBehaviour
             {
                 hitInfo.collider.GetComponent<Enemy>().TakeDamage(damage);   
             }
+
+            if (hitInfo.collider.CompareTag("Solid"))
+            {
+                Destroy(gameObject);
+            }
         }
         transform.Translate(Vector2.up * speed * Time.deltaTime);
     }

@@ -1,39 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] Transform target;
+    private NavMeshAgent agent;
+
     public int health;
     public Rigidbody2D rb;
     [SerializeField]
     GameObject bullet;
-    float fireRate;
-    float nextFire;
     
     void Start()
     {
-        rb = this.GetComponent<Rigidbody2D>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        fireRate = 1f;
-        nextFire = Time.time;
+        rb = this.GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     void Update()
     {
-        CheakifTimeToFire();
+        agent.SetDestination(target.position);
+
         if (health <= 0)
         {
             Destroy(gameObject);
-        }
-    }
-
-    void CheakifTimeToFire()
-    {
-        if (Time.time > nextFire)
-        {
-            Instantiate(bullet, transform.position, Quaternion.identity);
-            nextFire = Time.time + fireRate;
         }
     }
 
